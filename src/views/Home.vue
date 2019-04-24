@@ -1,5 +1,15 @@
 <template>
   <div class="home">
+    <h1>New Photo</h1>
+    <div>
+      Name:
+      <input type="text" v-model="newPhotoName" />
+      Width:
+      <input type="text" v-model="newPhotoWidth" />
+      Height:
+      <input type="text" v-model="newPhotoHeight" />
+      <button v-on:click="createPhoto()">Create Photo</button>
+    </div>
     <h1>All Photos</h1>
     <div v-for="photo in photos">
       <h2>{{ photo.name }}</h2>
@@ -18,7 +28,10 @@ import axios from "axios";
 export default {
   data: function() {
     return {
-      photos: []
+      photos: [],
+      newPhotoName: "",
+      newPhotoWidth: "",
+      newPhotoHeight: ""
     };
   },
   created: function() {
@@ -26,6 +39,20 @@ export default {
       this.photos = response.data;
     });
   },
-  methods: {}
+  methods: {
+    createPhoto: function() {
+      var params = {
+        name: this.newPhotoName,
+        width: this.newPhotoWidth,
+        height: this.newPhotoHeight
+      };
+      axios.post("/api/photos", params).then(response => {
+        this.photos.push(response.data);
+        this.newPhotoName = "";
+        this.newPhotoWidth = "";
+        this.newPhotoHeight = "";
+      });
+    }
+  }
 };
 </script>
