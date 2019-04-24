@@ -18,6 +18,15 @@
       <div v-if="currentPhoto === photo">
         <p>Width: {{ photo.width }}</p>
         <p>Height: {{ photo.height }}</p>
+        <div>
+          Name:
+          <input type="text" v-model="photo.name" />
+          Width:
+          <input type="text" v-model="photo.width" />
+          Height:
+          <input type="text" v-model="photo.height" />
+          <button v-on:click="updatePhoto(photo)">Update Photo</button>
+        </div>
       </div>
     </div>
   </div>
@@ -63,6 +72,16 @@ export default {
       } else {
         this.currentPhoto = photo;
       }
+    },
+    updatePhoto: function(photo) {
+      var params = {
+        name: photo.name,
+        width: photo.width,
+        height: photo.height
+      };
+      axios.patch("/api/photos/" + photo.id, params).then(response => {
+        this.currentPhoto = {};
+      });
     }
   }
 };
