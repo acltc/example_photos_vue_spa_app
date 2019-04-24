@@ -26,6 +26,7 @@
           Height:
           <input type="text" v-model="photo.height" />
           <button v-on:click="updatePhoto(photo)">Update Photo</button>
+          <button v-on:click="destroyPhoto(photo)">Destroy Photo</button>
         </div>
       </div>
     </div>
@@ -81,6 +82,12 @@ export default {
       };
       axios.patch("/api/photos/" + photo.id, params).then(response => {
         this.currentPhoto = {};
+      });
+    },
+    destroyPhoto: function(photo) {
+      axios.delete("/api/photos/" + photo.id).then(response => {
+        var index = this.photos.indexOf(photo);
+        this.photos.splice(index, 1);
       });
     }
   }
