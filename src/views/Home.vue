@@ -14,8 +14,11 @@
     <div v-for="photo in photos">
       <h2>{{ photo.name }}</h2>
       <img v-bind:src="photo.url" v-bind:alt="photo.name" />
-      <p>Width: {{ photo.width }}</p>
-      <p>Height: {{ photo.height }}</p>
+      <button v-on:click="showPhoto(photo)">Show more</button>
+      <div v-if="currentPhoto === photo">
+        <p>Width: {{ photo.width }}</p>
+        <p>Height: {{ photo.height }}</p>
+      </div>
     </div>
   </div>
 </template>
@@ -29,6 +32,7 @@ export default {
   data: function() {
     return {
       photos: [],
+      currentPhoto: {},
       newPhotoName: "",
       newPhotoWidth: "",
       newPhotoHeight: ""
@@ -52,6 +56,13 @@ export default {
         this.newPhotoWidth = "";
         this.newPhotoHeight = "";
       });
+    },
+    showPhoto: function(photo) {
+      if (this.currentPhoto === photo) {
+        this.currentPhoto = {};
+      } else {
+        this.currentPhoto = photo;
+      }
     }
   }
 };
